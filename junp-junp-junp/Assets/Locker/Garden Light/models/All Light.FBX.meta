@@ -1,0 +1,149 @@
+fileFormatVersion: 2
+guid: e5619e729efad624ab2266e1970f5a55
+timeCreated: 1554307137
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Garden_Light_01
+    100004: Garden_Light_02
+    100006: Garden_Light_03
+    100008: Garden_Light_04
+    100010: Garden_Light_05
+    100012: Garden_Light_06
+    100014: Garden_Light_07
+    100016: Garden_Light_08
+    100018: Garden_Light_09
+    100020: Garden_Light_10
+    100022: Garden_Light_11
+    100024: Garden_Light_12
+    100026: Garden_Light_13
+    100028: Garden_Light_14
+    400000: //RootNode
+    400002: Garden_Light_01
+    400004: Garden_Light_02
+    400006: Garden_Light_03
+    400008: Garden_Light_04
+    400010: Garden_Light_05
+    400012: Garden_Light_06
+    400014: Garden_Light_07
+    400016: Garden_Light_08
+    400018: Garden_Light_09
+    400020: Garden_Light_10
+    400022: Garden_Light_11
+    400024: Garden_Light_12
+    400026: Garden_Light_13
+    400028: Garden_Light_14
+    2300000: Garden_Light_01
+    2300002: Garden_Light_02
+    2300004: Garden_Light_03
+    2300006: Garden_Light_04
+    2300008: Garden_Light_05
+    2300010: Garden_Light_06
+    2300012: Garden_Light_07
+    2300014: Garden_Light_08
+    2300016: Garden_Light_09
+    2300018: Garden_Light_10
+    2300020: Garden_Light_11
+    2300022: Garden_Light_12
+    2300024: Garden_Light_13
+    2300026: Garden_Light_14
+    3300000: Garden_Light_01
+    3300002: Garden_Light_02
+    3300004: Garden_Light_03
+    3300006: Garden_Light_04
+    3300008: Garden_Light_05
+    3300010: Garden_Light_06
+    3300012: Garden_Light_07
+    3300014: Garden_Light_08
+    3300016: Garden_Light_09
+    3300018: Garden_Light_10
+    3300020: Garden_Light_11
+    3300022: Garden_Light_12
+    3300024: Garden_Light_13
+    3300026: Garden_Light_14
+    4300000: Garden_Light_02
+    4300002: Garden_Light_03
+    4300004: Garden_Light_04
+    4300006: Garden_Light_05
+    4300008: Garden_Light_06
+    4300010: Garden_Light_07
+    4300012: Garden_Light_08
+    4300014: Garden_Light_09
+    4300016: Garden_Light_10
+    4300018: Garden_Light_11
+    4300020: Garden_Light_12
+    4300022: Garden_Light_13
+    4300024: Garden_Light_14
+    4300026: Garden_Light_01
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,74 @@
+﻿
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class In_flont : MonoBehaviour
+{
+    [SerializeField] private player player;
+    [SerializeField] private Ground Ground;
+    [SerializeField] private Wall_Right Wall_Right;//壁との当たり判定(右)
+    [SerializeField] private wall_left Wall_left;//壁との当たり判定(左)
+    public Vector3 Wall_angle;//向く角度
+    public GameObject OBJ2;//法線参照用クローンOBJ
+    public float maxDistance = 0.25f;//Rayの長さ
+    public bool Access_right;//一定時間のアクセス権禁止
+    public bool Colider_Exit; //登り切ったかの判定
+    public int front_Walls;//壁登りON
+    //// Start is called before the first frame update
+    void Update()
+    {
+
+
+        //////////////////Rayでプレイヤーの角度補正かつ壁の衝突判定
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+        Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.red);
+        if (Physics.Raycast(ray, out hit, maxDistance))
+        {
+            if (hit.collider.gameObject.tag == "wall" && Access_right && !Ground.ground)
+            {
+                /////////////////////////角度変更////////////////////////////////
+                Quaternion rot = Quaternion.FromToRotation(transform.forward, hit.normal);
+
+                GameObject cloneBox = Instantiate(OBJ2, hit.point, rot, hit.transform);
+
+                cloneBox.transform.rotation = rot * transform.rotation;
+
+                Wall_angle = cloneBox.GetComponent<Rigidbody>().transform.eulerAngles;
+                Wall_angle.y += 180;
+                Wall_angle.z = 0;
+                Wall_angle.x = 0;
+                /////////////////////////角度変更////////////////////////////////
+                front_Walls = 1;//判定
+            }
+
+            if (player.moveSpeed == 0 || Ground.ground || player.Jump_wall && front_Walls != 2)// 
+            {
+                //player.Cameraroteto = player.Rot.localEulerAngles.y;
+                front_Walls = 0;
+                player.Cameraroteto = player.Rot.eulerAngles.y;
+                Access_right = false;
+            }
+            if (player.Jump_wall)
+            {
+                Access_right = false;
+            }
+
+            if (Ground.ground) Access_right = true;
+        }
+        else
+        {
+            if (front_Walls == 1)
+            {
+                player.Junptime = 0.5f;
+                front_Walls = 2;
+                player.Cameraroteto = player.Rot.eulerAngles.y;
+                Access_right = false;
+            }
+              
+        }
+    }
+}
+
