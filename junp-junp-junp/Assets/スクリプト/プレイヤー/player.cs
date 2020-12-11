@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
+
 
 public class player : MonoBehaviour
 {
@@ -18,19 +18,15 @@ public class player : MonoBehaviour
     public Transform Rot;//Transform
     private Rigidbody rd;//Rigidbody
     private Vector3 roteto;//カメラ操作
-    private Quaternion from, to;
-    private float time;
     private bool Landing;
     public bool Gravitystop, Wonly, wallwalkbool, active;　//補助コード
     private float cameraX; //壁走り時のカメラを斜めにする動作
     private int MoveCamera = 0;
-    float z, y;
+    float z;
     public bool Jump_wall; //壁はしりからの切り替え
-    private Vector3 Player_roteto;
     public float Cameraroteto;
     private int Player_wall_rotato;//角度変更の管理
     public float speed;
-    private Vector3 ang;
     private float slidingTimes;//スライディング継続時間
     private Vector3 sldvel; //スライディング用velosity
     private int ThisRotation;
@@ -101,7 +97,7 @@ public class player : MonoBehaviour
                 Camera_Move();
                 Player_Move();
             }
-            rd.velocity = new Vector3(rd.velocity.x, 0, rd.velocity.z);
+
         }
         /////////////////////////
         if (Wall_Right.Right_Walls || Wall_left.Left_Walls || in_flont.front_Walls == 1)
@@ -177,21 +173,6 @@ public class player : MonoBehaviour
         Rot.transform.eulerAngles += roteto;
     }
 
-    void Camera_Move_wall_up()//視点操作＆視点可動域制限
-    {
-        float X_Rotation = Input.GetAxis("Mouse X");
-        float Y_Rotation = Input.GetAxis("Mouse Y");
-        Rot.transform.Rotate(-Y_Rotation, X_Rotation, 0);
-        Vector3 Y = Rot.transform.localEulerAngles;
-        if (Y.x >= 180)
-            Y.x -= 360;
-        if (Y.y >= 180)
-            Y.y -= 360;
-        Rot.transform.localEulerAngles = new Vector3(Mathf.Clamp(Y.x, -40, 40), Mathf.Clamp(Y.y, -20, 40), z);
-        roteto = new Vector3(0, X_Rotation * 2, 0);
-        Rot.transform.eulerAngles += roteto;
-    }
-
     void Player_Move()//プレイヤー移動操作
     {
 
@@ -230,14 +211,14 @@ public class player : MonoBehaviour
             else
             {
                 if (Input.GetKey(KeyCode.W))
-                    sldvel.z += 1;
+                    velocity.z += 1;
                 if (Input.GetKey(KeyCode.A))
-                    sldvel.x -= 1;
+                    velocity.x -= 1;
                 if (Input.GetKey(KeyCode.S))
-                    sldvel.z -= 1;
+                    velocity.z -= 1;
                 if (Input.GetKey(KeyCode.D))
-                    sldvel.x += 1;
-                sldvel = gameObject.transform.rotation * sldvel.normalized * Time.deltaTime * 3;
+                    velocity.x += 1;
+                velocity = gameObject.transform.rotation * velocity.normalized * Time.deltaTime * 3;
             }
             // rd.velocity = new Vector3(sldvel.x, velocity.y, sldvel.z);
             // transform.position += sldvel;
@@ -296,7 +277,7 @@ public class player : MonoBehaviour
         Jump = Vector3.zero;
         if (Input.GetKeyDown(KeyCode.Space) && Ground.ground)
         {
-            Jump.y += 3;
+            Jump.y += 5;
             Audio.Player_Sound_janp();
         }
         if (Ground.ground)
