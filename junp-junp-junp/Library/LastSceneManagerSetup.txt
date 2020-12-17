@@ -1,5 +1,5 @@
 sceneSetups:
-- path: "Assets/\u30B7\u30FC\u30F3/CharacterThirdPersonAI.unity"
+- path: "Assets/\u30B7\u30FC\u30F3/Player_Create.unity"
   isLoaded: 1
   isActive: 1
   isSubScene: 0

@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lower body
+  m_Mask: 00000000000000000000000001000000010000000000000000000000000000000000000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: sci_fi_woman
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:LeftUpLeg
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:LeftUpLeg/basic_rig:LeftLeg
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:LeftUpLeg/basic_rig:LeftLeg/basic_rig:LeftFoot
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:LeftUpLeg/basic_rig:LeftLeg/basic_rig:LeftFoot/basic_rig:LeftToeBase
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:LeftUpLeg/basic_rig:LeftLeg/basic_rig:LeftFoot/basic_rig:LeftToeBase/basic_rig:LeftToe_End
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:RightUpLeg
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:RightUpLeg/basic_rig:RightLeg
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:RightUpLeg/basic_rig:RightLeg/basic_rig:RightFoot
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:RightUpLeg/basic_rig:RightLeg/basic_rig:RightFoot/basic_rig:RightToeBase
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:RightUpLeg/basic_rig:RightLeg/basic_rig:RightFoot/basic_rig:RightToeBase/basic_rig:RightToe_End
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:LeftShoulder
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:LeftShoulder/basic_rig:LeftArm
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:LeftShoulder/basic_rig:LeftArm/basic_rig:LeftForeArm
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:LeftShoulder/basic_rig:LeftArm/basic_rig:LeftForeArm/basic_rig:LeftHand
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:LeftShoulder/basic_rig:LeftArm/basic_rig:LeftForeArm/basic_rig:LeftHand/basic_rig:LeftHandIndex1
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:LeftShoulder/basic_rig:LeftArm/basic_rig:LeftForeArm/basic_rig:LeftHand/basic_rig:LeftHandIndex1/basic_rig:LeftHandIndex2
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:LeftShoulder/basic_rig:LeftArm/basic_rig:LeftForeArm/basic_rig:LeftHand/basic_rig:LeftHandIndex1/basic_rig:LeftHandIndex2/basic_rig:LeftHandIndex3
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:LeftShoulder/basic_rig:LeftArm/basic_rig:LeftForeArm/basic_rig:LeftHand/basic_rig:LeftHandIndex1/basic_rig:LeftHandIndex2/basic_rig:LeftHandIndex3/basic_rig:LeftHandIndex4
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:Neck
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:Neck/basic_rig:Head
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:Neck/basic_rig:Head/basic_rig:HeadTop_End
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:RightShoulder
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:RightShoulder/basic_rig:RightArm
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:RightShoulder/basic_rig:RightArm/basic_rig:RightForeArm
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:RightShoulder/basic_rig:RightArm/basic_rig:RightForeArm/basic_rig:RightHand
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:RightShoulder/basic_rig:RightArm/basic_rig:RightForeArm/basic_rig:RightHand/basic_rig:RightHandIndex1
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:RightShoulder/basic_rig:RightArm/basic_rig:RightForeArm/basic_rig:RightHand/basic_rig:RightHandIndex1/basic_rig:RightHandIndex2
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:RightShoulder/basic_rig:RightArm/basic_rig:RightForeArm/basic_rig:RightHand/basic_rig:RightHandIndex1/basic_rig:RightHandIndex2/basic_rig:RightHandIndex3
+    m_Weight: 1
+  - m_Path: sci_fi_woman.003/basic_rig:Hips/basic_rig:Spine/basic_rig:Spine1/basic_rig:Spine2/basic_rig:RightShoulder/basic_rig:RightArm/basic_rig:RightForeArm/basic_rig:RightHand/basic_rig:RightHandIndex1/basic_rig:RightHandIndex2/basic_rig:RightHandIndex3/basic_rig:RightHandIndex4
+    m_Weight: 1

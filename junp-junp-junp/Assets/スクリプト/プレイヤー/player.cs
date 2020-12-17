@@ -197,28 +197,40 @@ public class player : MonoBehaviour
         ///////////////////////////////////////移動
         velocity = Vector3.zero;
         if (Input.GetKeyDown(KeyCode.LeftControl) && moveSpeed >= 7) slidingTimes = 9;
+
+        float angleDir = transform.eulerAngles.y * (Mathf.PI / 180.0f);
+        Vector3 dir1 = new Vector3(Mathf.Sin(angleDir), 0, Mathf.Cos(angleDir));
+        Vector3 dir2 = new Vector3(-Mathf.Cos(angleDir), 0, Mathf.Sin(angleDir));
         if (Input.GetKey(KeyCode.LeftControl))//スライディング処理
         {
             this.transform.localScale = new Vector3(1, 0.6f, 1);
-            sldvel = Vector3.zero;
+            
             if (slidingTimes >= 2)
             {
-
+                sldvel = Vector3.zero;
                 sldvel.z += 1;
-                sldvel = gameObject.transform.rotation * sldvel.normalized * slidingTimes * Time.deltaTime;
+                sldvel = gameObject.transform.rotation * sldvel.normalized * slidingTimes * Time.deltaTime * 1.5f;
                 slidingTimes -= Time.deltaTime * 7;
+                transform.position += sldvel;
             }
             else
             {
                 if (Input.GetKey(KeyCode.W))
-                    velocity.z += 1;
+                {
+                    transform.position += dir1 * moveSpeed * Time.deltaTime;
+                }
                 if (Input.GetKey(KeyCode.A))
-                    velocity.x -= 1;
-                if (Input.GetKey(KeyCode.S))
-                    velocity.z -= 1;
+                {
+                    transform.position += dir2 * moveSpeed * Time.deltaTime;
+                }
                 if (Input.GetKey(KeyCode.D))
-                    velocity.x += 1;
-                velocity = gameObject.transform.rotation * velocity.normalized * Time.deltaTime * 3;
+                {
+                    transform.position += -dir2 * moveSpeed * Time.deltaTime;
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    transform.position += -dir1 * moveSpeed * Time.deltaTime;
+                }
             }
             // rd.velocity = new Vector3(sldvel.x, velocity.y, sldvel.z);
             // transform.position += sldvel;
@@ -227,14 +239,22 @@ public class player : MonoBehaviour
         {
             this.transform.localScale = new Vector3(1, 1, 1);
             if (Input.GetKey(KeyCode.W))
-                velocity.z += 1;
+            {
+                transform.position += dir1 * moveSpeed * Time.deltaTime;
+            }
             if (Input.GetKey(KeyCode.A))
-                velocity.x -= 1;
-            if (Input.GetKey(KeyCode.S))
-                velocity.z -= 1;
+            {
+                transform.position += dir2 * moveSpeed * Time.deltaTime;
+            }
             if (Input.GetKey(KeyCode.D))
-                velocity.x += 1;
-            velocity = gameObject.transform.rotation * velocity.normalized * moveSpeed * Time.deltaTime;
+            {
+                transform.position += -dir2 * moveSpeed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.position += -dir1 * moveSpeed * Time.deltaTime;
+            }
+
         }
         //////////////////////////////////////
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
@@ -242,31 +262,38 @@ public class player : MonoBehaviour
         else { Wonly = true; }
 
 
-        if (velocity.magnitude > 0) //動いたら...
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) //動いたら...
         {
-            rd.MovePosition(velocity + transform.position); //移動操作をプレイヤーに代入
-
-            //走り
-            if (Input.GetKey(KeyCode.LeftShift) && moveSpeed <= 8 && Ground.ground && Wonly && Input.GetKey(KeyCode.W))
-            {
-                moveSpeed += Time.deltaTime * 8;
-                if (moveSpeed > 8) moveSpeed = 8;
-            }
-            if (!Input.GetKey(KeyCode.LeftShift) && moveSpeed >= 5 || !Input.GetKey(KeyCode.W))
+            ////////////////走り
+            if(Input.GetKey(KeyCode.LeftControl) && moveSpeed >= 3  && Input.GetKey(KeyCode.W))
             {
                 moveSpeed -= 5 * Time.deltaTime * 8;
-                if (moveSpeed < 5) moveSpeed = 5;
+                if (moveSpeed < 3) moveSpeed = 3;
             }
-            if (Input.GetKeyDown(KeyCode.Space) || !Ground.ground)//spaceキー押してないなら
-                walk_time = 0;
-            if (!Ground.ground && moveSpeed < 0)//壁走り解除後のスピード補正
-                moveSpeed = 5;
+            else
+            {
+                if (Input.GetKey(KeyCode.LeftShift) && moveSpeed <= 8 && Ground.ground && Wonly && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.LeftControl))
+                {
+                    moveSpeed += Time.deltaTime * 10;
+                    if (moveSpeed > 8) moveSpeed = 8;
+                }
+                if (!Input.GetKey(KeyCode.LeftShift) && moveSpeed >= 5 || !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.LeftControl))
+                {
+                    moveSpeed -= 5 * Time.deltaTime * 8;
+                    if (moveSpeed < 5) moveSpeed = 5;
+                }
+            }
+            //////////////////
+
+            if (Input.GetKeyDown(KeyCode.Space) || !Ground.ground || slidingTimes >= 2)//spaceキー押してないなら
+            { walk_time = 0; }
             else
             {
                 //歩いている時間を計測（走ると倍）
                 walk_time += Time.deltaTime * moveSpeed / 5;
             }
-
+            if (!Ground.ground && moveSpeed < 0)//壁走り解除後のスピード補正
+                moveSpeed = 5;
         }
         else
         {
