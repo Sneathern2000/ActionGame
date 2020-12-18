@@ -31,6 +31,7 @@ public class player : MonoBehaviour
     private Vector3 sldvel; //スライディング用velosity
     private int ThisRotation;
     public float Junptime;
+    private Vector3 InputAxis;
 
 
     // Use this for initialization
@@ -196,11 +197,19 @@ public class player : MonoBehaviour
 
         ///////////////////////////////////////移動
         velocity = Vector3.zero;
+        InputAxis = Vector3.zero;
         if (Input.GetKeyDown(KeyCode.LeftControl) && moveSpeed >= 7) slidingTimes = 9;
 
-        float angleDir = transform.eulerAngles.y * (Mathf.PI / 180.0f);
-        Vector3 dir1 = new Vector3(Mathf.Sin(angleDir), 0, Mathf.Cos(angleDir));
-        Vector3 dir2 = new Vector3(-Mathf.Cos(angleDir), 0, Mathf.Sin(angleDir));
+        ////////////////////////移動    
+        if (Input.GetKey(KeyCode.W))
+            InputAxis.x += 1;
+        if (Input.GetKey(KeyCode.A))
+            InputAxis.z -= 1;
+        if (Input.GetKey(KeyCode.S))
+            InputAxis.x -= 1;
+        if (Input.GetKey(KeyCode.D))
+            InputAxis.z += 1;
+        InputAxis = InputAxis.normalized;
         if (Input.GetKey(KeyCode.LeftControl))//スライディング処理
         {
             this.transform.localScale = new Vector3(1, 0.6f, 1);
@@ -215,22 +224,7 @@ public class player : MonoBehaviour
             }
             else
             {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    transform.position += dir1 * moveSpeed * Time.deltaTime;
-                }
-                if (Input.GetKey(KeyCode.A))
-                {
-                    transform.position += dir2 * moveSpeed * Time.deltaTime;
-                }
-                if (Input.GetKey(KeyCode.D))
-                {
-                    transform.position += -dir2 * moveSpeed * Time.deltaTime;
-                }
-                if (Input.GetKey(KeyCode.S))
-                {
-                    transform.position += -dir1 * moveSpeed * Time.deltaTime;
-                }
+                velocity = (transform.forward * InputAxis.x * moveSpeed) + (transform.right * InputAxis.z * moveSpeed);
             }
             // rd.velocity = new Vector3(sldvel.x, velocity.y, sldvel.z);
             // transform.position += sldvel;
@@ -238,34 +232,20 @@ public class player : MonoBehaviour
         else
         {
             this.transform.localScale = new Vector3(1, 1, 1);
-            if (Input.GetKey(KeyCode.W))
-            {
-                transform.position += dir1 * moveSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                transform.position += dir2 * moveSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                transform.position += -dir2 * moveSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                transform.position += -dir1 * moveSpeed * Time.deltaTime;
-            }
 
+            velocity = (transform.forward * InputAxis.x * moveSpeed) + (transform.right * InputAxis.z * moveSpeed);
+            
         }
         //////////////////////////////////////
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         { Wonly = false; }
         else { Wonly = true; }
 
-
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) //動いたら...
+        if (velocity.magnitude >= 0.1) //動いたら...
         {
+            
             ////////////////走り
-            if(Input.GetKey(KeyCode.LeftControl) && moveSpeed >= 3  && Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.LeftControl) && moveSpeed >= 3  && Input.GetKey(KeyCode.W))
             {
                 moveSpeed -= 5 * Time.deltaTime * 8;
                 if (moveSpeed < 3) moveSpeed = 3;
@@ -333,7 +313,10 @@ public class player : MonoBehaviour
         }
     }
 
-
+    void FixedUpdate()
+    {
+        rd.velocity = new Vector3(velocity.x, rd.velocity.y, velocity.z);
+    }
 
     void Leftwalk()
     {
