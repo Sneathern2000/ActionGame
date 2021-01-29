@@ -19,8 +19,8 @@ public class In_flont : MonoBehaviour
     //// Start is called before the first frame update
     void Update()
     {
-
-
+        if (Ground.ground) Access_right = true;
+        Debug.Log(front_Walls);
         //////////////////Rayでプレイヤーの角度補正かつ壁の衝突判定
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
@@ -29,6 +29,7 @@ public class In_flont : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "wall" && Access_right && !Ground.ground)
             {
+                
                 /////////////////////////角度変更////////////////////////////////
                 Quaternion rot = Quaternion.FromToRotation(transform.forward, hit.normal);
 
@@ -44,31 +45,25 @@ public class In_flont : MonoBehaviour
                 front_Walls = 1;//判定
             }
 
-            if (player.moveSpeed == 0 || Ground.ground || player.Jump_wall && front_Walls != 2)// 
+            if (Ground.ground)// 
             {
                 //player.Cameraroteto = player.Rot.localEulerAngles.y;
                 front_Walls = 0;
                 player.Cameraroteto = player.Rot.eulerAngles.y;
                 Access_right = false;
             }
-            if (player.Jump_wall)
-            {
-                Access_right = false;
-            }
-
-            if (Ground.ground) Access_right = true;
+           
         }
         else
         {
             if (front_Walls == 1)
             {
-                player.Junptime = 0.5f;
                 front_Walls = 2;
                 player.Cameraroteto = player.Rot.eulerAngles.y;
                 Access_right = false;
-            }
-              
+            }     
         }
+        
     }
 }
 

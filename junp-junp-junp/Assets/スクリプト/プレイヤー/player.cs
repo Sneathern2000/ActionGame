@@ -30,8 +30,8 @@ public class player : MonoBehaviour
     private float slidingTimes;//スライディング継続時間
     private Vector3 sldvel; //スライディング用velosity
     private int ThisRotation;
-    public float Junptime;
-    private Vector3 InputAxis;
+    private Vector3 InputAxis;//移動方向の取得
+    public bool notmove; //動くのをやめたときの判定
 
 
     // Use this for initialization
@@ -53,7 +53,7 @@ public class player : MonoBehaviour
         if (Ground.ground) wallwalkbool = false;
         if (Jump_wall) // スクリプトの制御
         {
-            Wall_Jump();
+            Wall_Jump_Camera();
         }
         else
         {
@@ -83,11 +83,16 @@ public class player : MonoBehaviour
                     }
                 }
 
-                if (in_flont.front_Walls == 1 || in_flont.front_Walls == 2)
+                if (in_flont.front_Walls == 1 )
                 {
                     frontclimb();
                     ThisRotation = 1;
                     Camera_Move_wall(40);
+                }
+
+                if(in_flont.front_Walls == 2 || Input.GetKeyDown(KeyCode.P))
+                {
+                    frontclimb_jump();
                 }
 
             }
@@ -582,34 +587,30 @@ public class player : MonoBehaviour
 
             }
         }
-        else
-        {
-            if (Junptime <= 0)
-            {
-                in_flont.front_Walls = 0;
-            }
-            else
-            {
-                velocity = Vector3.zero;
-                velocity.y += 1;
-                velocity = gameObject.transform.rotation * velocity.normalized * 3 * Time.deltaTime;
-                transform.position += velocity;
-                Junptime -= Time.deltaTime;
-            }
-
-        }
         if (moveSpeed < 0)//0以下になった時の補正用
         {
             moveSpeed = 0;
+            in_flont.front_Walls = 2;
+            Cameraroteto = Rot.eulerAngles.y;
+            in_flont.Access_right = false;
         }
     }//壁登り
 
+    void frontclimb_jump() //////////壁のぼり終わった後のジャンプ処理
+    {
+        print("aa");
+        Jump = Vector3.zero;
+        Jump.y += 10;
+        Audio.Player_Sound_janp();
+        rd.velocity += Jump;
+        in_flont.front_Walls = 0;
+
+    }
 
 
-    void Wall_Jump()//カメラの角度に変更
+        void Wall_Jump_Camera()//カメラの角度に変更
     {
         Jump = Vector3.zero;
-
         Jump.y += 5;
         Jump.x += Rot.transform.forward.x;
         Jump.z += Rot.transform.forward.z;
@@ -617,7 +618,7 @@ public class player : MonoBehaviour
         rd.velocity += Jump;
         Jump_wall = false;
     }
-
+    
 
 
     void wall_angle()//壁に衝突時にプレイヤーを壁にそって走るように角度の変更
