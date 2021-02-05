@@ -47,6 +47,7 @@ public class wall_left : MonoBehaviour
         else
         {
             Left_Walls = false;
+           
         }
 
         if (!Access_left)

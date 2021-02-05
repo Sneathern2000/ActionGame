@@ -19,13 +19,12 @@ public class player : MonoBehaviour
     private Rigidbody rd;//Rigidbody
     private Vector3 roteto;//カメラ操作
     private bool Landing;
-    public bool Gravitystop, Wonly, wallwalkbool, active;　//補助コード
+    public bool Gravitystop, Wonly, active;　//補助コード
     private float cameraX; //壁走り時のカメラを斜めにする動作
     private int MoveCamera = 0;
     float z; //カメラの回転のＺ軸を参照用
     public bool Jump_wall; //壁はしりからの切り替え
     public float Cameraroteto;
-    private int Player_wall_rotato;//角度変更の管理
     public float speed;
     private float slidingTimes;//スライディング継続時間
     private Vector3 sldvel; //スライディング用velosity
@@ -50,7 +49,6 @@ public class player : MonoBehaviour
     void Update()
     {
         //print(MoveCamera);
-        if (Ground.ground) wallwalkbool = false;
         if (Jump_wall) // スクリプトの制御
         {
             Wall_Jump_Camera();
@@ -60,11 +58,9 @@ public class player : MonoBehaviour
 
             if (Wall_left.Left_Walls || Wall_Right.Right_Walls || in_flont.front_Walls != 0)
             {
-
-                wallwalkbool = true;
-                if (Wall_Right.Right_Walls)
+                if (Wall_Right.Right_Walls)//右壁なら
                 {
-                    Rightwalk();
+                    Wallwalk();
                     ThisRotation = 1;
                     if (MoveCamera == 0)
                     {
@@ -75,7 +71,7 @@ public class player : MonoBehaviour
 
                 if (Wall_left.Left_Walls)//左壁なら
                 {
-                    Leftwalk();
+                    Wallwalk();
                     ThisRotation = 1;
                     if (MoveCamera == 0)
                     {
@@ -83,16 +79,16 @@ public class player : MonoBehaviour
                     }
                 }
 
-                if (in_flont.front_Walls == 1 )
+                if (in_flont.front_Walls == 1 )//正面の壁なら
                 {
-                    frontclimb();
+                    Frontclimb();
                     ThisRotation = 1;
                     Camera_Move_wall(40);
                 }
 
-                if(in_flont.front_Walls == 2 || Input.GetKeyDown(KeyCode.P))
+                if(in_flont.front_Walls == 2)
                 {
-                    frontclimb_jump();
+                    Frontclimb_jump();
                 }
 
             }
@@ -321,107 +317,8 @@ public class player : MonoBehaviour
         rd.velocity = new Vector3(velocity.x, rd.velocity.y, velocity.z);
     }
 
-    void Leftwalk()
-    {
 
-        ////////////////////////////初期設定(一度のみ)//////////////////////////////////
-        if (Gravitystop)
-        {
-            z = 0;
-            MoveCamera = 2;
-            cameraX = Rot.rotation.x;
-            rd.isKinematic = true;
-            Gravitystop = false;
-            rd.isKinematic = false;
-            moveSpeed = 10;
-        }
-        ////////////////////////////初期設定(一度のみ)//////////////////////////////////
-
-        if (Input.GetKeyDown(KeyCode.Space))//space押されてないなら
-        {
-            Cameraroteto = Rot.eulerAngles.y;
-            Jump_wall = true;
-            moveSpeed = 5;
-        }
-        else
-        {
-            ///////////////////////////プレイヤーの動き/////////////////////////////////////
-            velocity = Vector3.zero;
-            if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
-            {
-                velocity.z += 1;
-                moveSpeed -= Time.deltaTime * 8;
-
-            }
-            else
-            {
-                moveSpeed = 0;
-            }
-            if (Input.GetKey(KeyCode.D))
-                velocity.x += 1;
-
-            velocity = gameObject.transform.rotation * velocity.normalized * 7 * Time.deltaTime;
-
-            if (velocity.magnitude > 0) //動いたら...
-            {
-                transform.position += velocity; //移動操作をプレイヤーに代入
-            }
-            ///////////////////////////プレイヤーの動き/////////////////////////////////////
-
-            ///////////////////////////走るサウンド/////////////////////////////////////////
-            walk_time += Time.deltaTime * 2;
-            if (walk_time > 0.5)//歩行時間が一定を超えたら
-            {
-                walk_time = 0;
-                Audio.Player_Sound();
-            }
-            ///////////////////////////走るサウンド/////////////////////////////////////////
-
-            ///////////////////////////壁走りの上昇＆下降///////////////////////////////////
-            Jump = Vector3.zero;
-            if (moveSpeed > 5)
-            {
-                Jump.y += 1;
-                Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime;
-            }
-            if (moveSpeed < 5 && moveSpeed > 4)
-            {
-                Jump.y += 1;
-                Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime / 2;
-            }
-            if (moveSpeed < 4 && moveSpeed > 3)
-            {
-                Jump.y += 1;
-                Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime / 3;
-            }
-            if (moveSpeed < 3 && moveSpeed > 2)
-            {
-                Jump.y -= 1;
-                Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime / 5;
-            }
-            if (moveSpeed < 2)
-            {
-                Jump.y -= 1;
-                Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime / 7;
-            }
-            if (Jump.magnitude > 0) //動いたら...
-            {
-                transform.position += Jump; //移動操作をプレイヤーに代入
-            }
-            ///////////////////////////壁走りの上昇＆下降///////////////////////////////////
-        }
-
-
-
-        if (moveSpeed < 0)
-        {
-            moveSpeed = 0;
-        }
-    }//壁移動左
-
-
-
-    void Rightwalk()
+    void Wallwalk()
     {
 
         ////////////////////////////初期設定(一度のみ)//////////////////////////////////
@@ -431,7 +328,8 @@ public class player : MonoBehaviour
             //Rot.transform.Rotate(new Vector3(0, 0, 15));
             //transform.rotation = Quaternion.Euler(Wall_Right.Wall_angle);
             z = 0;
-            MoveCamera = 1;
+            if (Wall_Right.Right_Walls) MoveCamera = 1;
+            if (Wall_left.Left_Walls) MoveCamera = 2;
             cameraX = Rot.rotation.x;
             rd.isKinematic = true;
             Gravitystop = false;
@@ -459,9 +357,24 @@ public class player : MonoBehaviour
             {
                 moveSpeed = 0;
             }
-            if (Input.GetKey(KeyCode.A))
-                velocity.x -= 1;
 
+            if (Wall_Right.Right_Walls)
+            {
+                if (Input.GetKey(KeyCode.A))
+                {
+                    velocity.x -= 1;
+                    Cameraroteto = Rot.eulerAngles.y;
+                }                   
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.D))
+                {
+                    velocity.x += 1;
+                    Cameraroteto = Rot.eulerAngles.y;
+                }     
+            }
+            
             velocity = gameObject.transform.rotation * velocity.normalized * 7 * Time.deltaTime;
 
             if (velocity.magnitude > 0) //動いたら...
@@ -519,11 +432,10 @@ public class player : MonoBehaviour
         {
             moveSpeed = 0;
         }
-    }//壁移動右
+    }//壁移動
 
 
-
-    void frontclimb()
+    void Frontclimb()
     {
 
         ////////////////////////////初期設定(一度のみ)//////////////////////////////////
@@ -584,7 +496,7 @@ public class player : MonoBehaviour
         }
     }//壁登り
 
-    void frontclimb_jump() //////////壁のぼり終わった後のジャンプ処理
+    void Frontclimb_jump() //////////壁のぼり終わった後のジャンプ処理
     {
         Jump = Vector3.zero;
         Jump.y += 3;
@@ -594,7 +506,7 @@ public class player : MonoBehaviour
     }
 
 
-        void Wall_Jump_Camera()//カメラの角度に変更
+    void Wall_Jump_Camera()//壁ジャンプ
     {
         Jump = Vector3.zero;
         Jump.y += 5;
@@ -603,20 +515,5 @@ public class player : MonoBehaviour
         Audio.Player_Sound_janp();
         rd.velocity += Jump;
         Jump_wall = false;
-    }
-    
-
-
-    void wall_angle()//壁に衝突時にプレイヤーを壁にそって走るように角度の変更
-    {
-        var step = speed * Time.deltaTime;
-        if (Player_wall_rotato == 1)
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(Wall_Right.Wall_angle), step);
-        if (Player_wall_rotato == 2)
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(Wall_left.Wall_angle), step);
-
-    }
-
-
-
+    }    
 }
