@@ -22,7 +22,7 @@ public class player : MonoBehaviour
     public bool Gravitystop, Wonly, wallwalkbool, active;　//補助コード
     private float cameraX; //壁走り時のカメラを斜めにする動作
     private int MoveCamera = 0;
-    float z;
+    float z; //カメラの回転のＺ軸を参照用
     public bool Jump_wall; //壁はしりからの切り替え
     public float Cameraroteto;
     private int Player_wall_rotato;//角度変更の管理
@@ -231,8 +231,6 @@ public class player : MonoBehaviour
             {
                 velocity = (transform.forward * InputAxis.x * moveSpeed) + (transform.right * InputAxis.z * moveSpeed);
             }
-            // rd.velocity = new Vector3(sldvel.x, velocity.y, sldvel.z);
-            // transform.position += sldvel;
         }
         else
         {
@@ -446,7 +444,6 @@ public class player : MonoBehaviour
             Cameraroteto = Rot.eulerAngles.y;
             Jump_wall = true;
             moveSpeed = 5;
-            //rd.AddForce(Rot.transform.forward * 30000);
         }
         else
         {
@@ -542,14 +539,7 @@ public class player : MonoBehaviour
         if (in_flont.front_Walls == 1)
         {
 
-            if (Input.GetKeyDown(KeyCode.Space))//space押されてないなら
-            {
-                Cameraroteto = Rot.eulerAngles.y;
-                Jump_wall = true;
-                moveSpeed = 5;
-            }
-            else
-            {
+            
                 ///////////////////////////プレイヤーの動き/////////////////////////////////////
                 velocity = Vector3.zero;
                 if (Input.GetKey(KeyCode.W))
@@ -584,13 +574,11 @@ public class player : MonoBehaviour
                 }
                 ///////////////////////////走るサウンド/////////////////////////////////////////
 
-
-            }
         }
         if (moveSpeed < 0)//0以下になった時の補正用
         {
             moveSpeed = 0;
-            in_flont.front_Walls = 2;
+            in_flont.front_Walls = 0;
             Cameraroteto = Rot.eulerAngles.y;
             in_flont.Access_right = false;
         }
@@ -598,13 +586,11 @@ public class player : MonoBehaviour
 
     void frontclimb_jump() //////////壁のぼり終わった後のジャンプ処理
     {
-        print("aa");
         Jump = Vector3.zero;
-        Jump.y += 10;
+        Jump.y += 3;
         Audio.Player_Sound_janp();
         rd.velocity += Jump;
-        in_flont.front_Walls = 0;
-
+        in_flont.front_Walls = 3;
     }
 
 

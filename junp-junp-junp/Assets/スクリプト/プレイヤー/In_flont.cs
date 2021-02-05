@@ -16,6 +16,7 @@ public class In_flont : MonoBehaviour
     public bool Access_right;//一定時間のアクセス権禁止
     public bool Colider_Exit; //登り切ったかの判定
     public int front_Walls;//壁登りON
+    private float Count;
     //// Start is called before the first frame update
     void Update()
     {
@@ -29,7 +30,7 @@ public class In_flont : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "wall" && Access_right && !Ground.ground)
             {
-                
+                Count = 0.3f;
                 /////////////////////////角度変更////////////////////////////////
                 Quaternion rot = Quaternion.FromToRotation(transform.forward, hit.normal);
 
@@ -62,6 +63,16 @@ public class In_flont : MonoBehaviour
                 player.Cameraroteto = player.Rot.eulerAngles.y;
                 Access_right = false;
             }     
+        }
+
+        if(front_Walls == 3)
+        {
+            Count -= Time.deltaTime;
+
+            if(Count <= 0)
+            {
+                front_Walls = 0;
+            }
         }
         
     }
