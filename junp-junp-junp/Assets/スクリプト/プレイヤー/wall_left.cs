@@ -6,13 +6,14 @@ public class wall_left : MonoBehaviour
 {
     [SerializeField] private player player;
     [SerializeField] private Ground Ground;
+    [SerializeField] private In_flont In_Flont;
+    [SerializeField] private Wall_Right wall_Right;
     private float maxDistance = 0.45f;//Rayの長さ
     public Vector3 Wall_angle;//向く角度
     public bool Left_Walls;//壁走りON
     public GameObject OBJ2;//法線参照用クローンOBJ
     public bool Access_left;//一定時間のアクセス権禁止
     private float Access_time; //カウント  
-
     // Start is called before the first frame update
     void Update()
     {
@@ -21,7 +22,7 @@ public class wall_left : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.red);
         if (Physics.Raycast(ray, out hit, maxDistance))
         {
-            if (hit.collider.gameObject.tag == "wall" && !Ground.ground && player.moveSpeed >= 6 && Access_left)
+            if (hit.collider.gameObject.tag == "wall" && !Ground.ground && player.moveSpeed >= 6 && hit.collider.gameObject.GetInstanceID() != player.BlockID_Run && !wall_Right.Right_Walls && In_Flont.front_Walls == 0)
             {
                 /////////////////////////角度変更////////////////////////////////
                 Quaternion rot = Quaternion.FromToRotation(transform.forward, hit.normal);
@@ -36,18 +37,21 @@ public class wall_left : MonoBehaviour
                 Wall_angle.x = 0;
                 /////////////////////////角度変更////////////////////////////////
                 Left_Walls = true;
+
+                player.BlockID_Retention = hit.collider.gameObject.GetInstanceID();//壁のID保持
             }
             if (player.moveSpeed == 0 || Ground.ground || hit.collider.gameObject.tag != "wall" || player.Jump_wall)
             {
                 player.Cameraroteto = player.Rot.eulerAngles.y;
                 Left_Walls = false;
+                player.BlockID_Run = player.BlockID_Retention;
             }
 
         }
         else
         {
             Left_Walls = false;
-           
+            player.BlockID_Run = player.BlockID_Retention;
         }
 
         if (!Access_left)

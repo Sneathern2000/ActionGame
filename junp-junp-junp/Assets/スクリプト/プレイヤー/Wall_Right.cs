@@ -6,6 +6,8 @@ public class Wall_Right : MonoBehaviour
 {
     [SerializeField] private player player;
     [SerializeField] private Ground Ground;
+    [SerializeField] private In_flont In_Flont;
+    [SerializeField] private wall_left wall_left;
     private float maxDistance = 0.45f; //Rayの長さ
     public Vector3 Wall_angle;//向く角度
     public bool Right_Walls;//壁走りON
@@ -21,7 +23,7 @@ public class Wall_Right : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.red);
         if (Physics.Raycast(ray, out hit, maxDistance))
         {
-            if (hit.collider.gameObject.tag == "wall" && !Ground.ground && player.moveSpeed >= 6 && Access_right)
+            if (hit.collider.gameObject.tag == "wall" && !Ground.ground && player.moveSpeed >= 6 && hit.collider.gameObject.GetInstanceID() != player.BlockID_Run && !wall_left.Left_Walls && In_Flont.front_Walls ==0)
             {
                 /////////////////////////角度変更////////////////////////////////
                 Quaternion rot = Quaternion.FromToRotation(transform.forward, hit.normal);
@@ -40,12 +42,15 @@ public class Wall_Right : MonoBehaviour
                 //cloneBox.transform.rotation = rot2;
                 /////////////////////////角度変更////////////////////////////////
                 Right_Walls = true;
+
+                player.BlockID_Retention = hit.collider.gameObject.GetInstanceID();//壁のID保持
             }
             if (player.moveSpeed == 0 || Ground.ground || hit.collider.gameObject.tag != "wall" || player.Jump_wall)
             {
                 //player.Cameraroteto = player.Rot.localEulerAngles.y;
                 Right_Walls = false;
                 player.Cameraroteto = player.Rot.eulerAngles.y;
+                player.BlockID_Run = player.BlockID_Retention;
             }
             if (player.Jump_wall)
             {

@@ -17,18 +17,19 @@ public class In_flont : MonoBehaviour
     public bool Colider_Exit; //登り切ったかの判定
     public int front_Walls;//壁登りON
     private float Count;
+
     //// Start is called before the first frame update
     void Update()
     {
         if (Ground.ground) Access_right = true;
-        Debug.Log(front_Walls);
         //////////////////Rayでプレイヤーの角度補正かつ壁の衝突判定
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.red);
         if (Physics.Raycast(ray, out hit, maxDistance))
         {
-            if (hit.collider.gameObject.tag == "wall" && Access_right && !Ground.ground)
+
+            if (hit.collider.gameObject.tag == "wall" && hit.collider.gameObject.GetInstanceID() != player.BlockID_Run && !Ground.ground && !Wall_left.Left_Walls && !Wall_Right.Right_Walls)
             {
                 Count = 0.3f;
                 /////////////////////////角度変更////////////////////////////////
@@ -44,6 +45,8 @@ public class In_flont : MonoBehaviour
                 Wall_angle.x = 0;
                 /////////////////////////角度変更////////////////////////////////
                 front_Walls = 1;//判定
+
+                player.BlockID_Retention = hit.collider.gameObject.GetInstanceID();//壁のID保持
             }
 
             if (Ground.ground)// 
@@ -51,7 +54,7 @@ public class In_flont : MonoBehaviour
                 //player.Cameraroteto = player.Rot.localEulerAngles.y;
                 front_Walls = 0;
                 player.Cameraroteto = player.Rot.eulerAngles.y;
-                Access_right = false;
+                player.BlockID_Run = player.BlockID_Retention;
             }
            
         }
@@ -61,7 +64,7 @@ public class In_flont : MonoBehaviour
             {
                 front_Walls = 2;
                 player.Cameraroteto = player.Rot.eulerAngles.y;
-                Access_right = false;
+                player.BlockID_Run = player.BlockID_Retention;
             }     
         }
 

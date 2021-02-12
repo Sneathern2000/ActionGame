@@ -31,7 +31,7 @@ public class player : MonoBehaviour
     private int ThisRotation;
     private Vector3 InputAxis;//移動方向の取得
     public bool notmove; //動くのをやめたときの判定
-
+    public int BlockID_Retention ,BlockID_Run;//壁を二回連続認識しないためのIDほぞん変数と実行変数
 
     // Use this for initialization
     void Start()
@@ -251,15 +251,27 @@ public class player : MonoBehaviour
             }
             else
             {
-                if (Input.GetKey(KeyCode.LeftShift) && moveSpeed <= 8 && Ground.ground && Wonly && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.LeftControl))
+                if (Input.GetKey(KeyCode.LeftShift) && moveSpeed <= 8 && Wonly && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.LeftControl))
                 {
-                    moveSpeed += Time.deltaTime * 10;
-                    if (moveSpeed > 8) moveSpeed = 8;
+                    if (Ground.ground ||BlockID_Run !=0)//地面についているとき又は連続での壁ジャン中のみ
+                    {
+                         moveSpeed += Time.deltaTime * 10;
+                         if (moveSpeed > 8) moveSpeed = 8;
+                    }
+                   
                 }
                 if (!Input.GetKey(KeyCode.LeftShift) && moveSpeed >= 5 || !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.LeftControl))
                 {
                     moveSpeed -= 5 * Time.deltaTime * 8;
                     if (moveSpeed < 5) moveSpeed = 5;
+                }
+                else
+                {
+                    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) && moveSpeed >= 7 && !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift))
+                    {
+                        moveSpeed -= 5 * Time.deltaTime * 8;
+                        if (moveSpeed < 7) moveSpeed = 7;
+                    }
                 }
             }
             //////////////////
@@ -293,7 +305,8 @@ public class player : MonoBehaviour
                 Audio.Player_Sound_Landing();
                 Landing = false;
             }
-
+            BlockID_Run = 0;
+            BlockID_Retention = 0;
         }
         else
         {
@@ -468,6 +481,7 @@ public class player : MonoBehaviour
                 {
                     velocity.z -= 1;
                     moveSpeed = 0;
+                    
                 }
                 velocity = gameObject.transform.rotation * velocity.normalized * 3 * Time.deltaTime;
 
@@ -492,7 +506,7 @@ public class player : MonoBehaviour
             moveSpeed = 0;
             in_flont.front_Walls = 0;
             Cameraroteto = Rot.eulerAngles.y;
-            in_flont.Access_right = false;
+            BlockID_Run = BlockID_Retention;
         }
     }//壁登り
 
@@ -515,5 +529,6 @@ public class player : MonoBehaviour
         Audio.Player_Sound_janp();
         rd.velocity += Jump;
         Jump_wall = false;
-    }    
+    }
+
 }
