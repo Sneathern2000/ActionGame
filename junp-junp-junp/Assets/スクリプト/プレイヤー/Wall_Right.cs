@@ -23,8 +23,10 @@ public class Wall_Right : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.red);
         if (Physics.Raycast(ray, out hit, maxDistance))
         {
-            if (hit.collider.gameObject.tag == "wall" && !Ground.ground && player.moveSpeed >= 6 && hit.collider.gameObject.GetInstanceID() != player.BlockID_Run && !wall_left.Left_Walls && In_Flont.front_Walls ==0)
+            
+            if (hit.collider.gameObject.tag == "Junp_wall" && !Ground.ground && player.moveSpeed >= 6 && hit.collider.gameObject.GetInstanceID() != player.BlockID_Run && !wall_left.Left_Walls && In_Flont.front_Walls ==0)
             {
+                print("okkkkkkkkkk");
                 /////////////////////////角度変更////////////////////////////////
                 Quaternion rot = Quaternion.FromToRotation(transform.forward, hit.normal);
                 
@@ -45,7 +47,7 @@ public class Wall_Right : MonoBehaviour
 
                 player.BlockID_Retention = hit.collider.gameObject.GetInstanceID();//壁のID保持
             }
-            if (player.moveSpeed == 0 || Ground.ground || hit.collider.gameObject.tag != "wall" || player.Jump_wall)
+            if (player.moveSpeed == 0 || Ground.ground || hit.collider.gameObject.tag != "Junp_wall" || player.Jump_wall)
             {
                 //player.Cameraroteto = player.Rot.localEulerAngles.y;
                 Right_Walls = false;

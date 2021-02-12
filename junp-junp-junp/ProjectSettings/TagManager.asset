@@ -8,6 +8,7 @@ TagManager:
   - OBJ
   - other
   - Movefloor
+  - Junp_wall
   layers:
   - Default
   - TransparentFX

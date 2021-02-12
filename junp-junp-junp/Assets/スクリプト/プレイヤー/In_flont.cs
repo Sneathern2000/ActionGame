@@ -29,7 +29,7 @@ public class In_flont : MonoBehaviour
         if (Physics.Raycast(ray, out hit, maxDistance))
         {
 
-            if (hit.collider.gameObject.tag == "wall" && hit.collider.gameObject.GetInstanceID() != player.BlockID_Run && !Ground.ground && !Wall_left.Left_Walls && !Wall_Right.Right_Walls)
+            if (hit.collider.gameObject.tag == "Junp_wall" && hit.collider.gameObject.GetInstanceID() != player.BlockID_Run && !Ground.ground && !Wall_left.Left_Walls && !Wall_Right.Right_Walls)
             {
                 Count = 0.3f;
                 /////////////////////////角度変更////////////////////////////////

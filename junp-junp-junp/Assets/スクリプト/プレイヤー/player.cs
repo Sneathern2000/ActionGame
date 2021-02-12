@@ -14,6 +14,7 @@ public class player : MonoBehaviour
     public Vector3 velocity;// 移動方向
     private Vector3 Jump;//ジャンプ代入
     public float moveSpeed;// 移動速度
+    private float sp;//スタミナ
     private float walk_time;//歩いた時間
     public Transform Rot;//Transform
     private Rigidbody rd;//Rigidbody
@@ -32,7 +33,8 @@ public class player : MonoBehaviour
     private Vector3 InputAxis;//移動方向の取得
     public bool notmove; //動くのをやめたときの判定
     public int BlockID_Retention ,BlockID_Run;//壁を二回連続認識しないためのIDほぞん変数と実行変数
-
+    private bool gravit_sky;
+    private float gravit_count;
     // Use this for initialization
     void Start()
     {
@@ -40,7 +42,6 @@ public class player : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Audio = GetComponent<Player_Audio>();
-
     }
 
 
@@ -177,7 +178,6 @@ public class player : MonoBehaviour
 
     void Player_Move()//プレイヤー移動操作
     {
-
         if (ThisRotation == 1)//壁走りあとカメラの向きをplayerObjと同期する
         {
             transform.rotation = Quaternion.Euler(0, Cameraroteto, 0);
@@ -193,9 +193,11 @@ public class player : MonoBehaviour
         //////////////////////////////////////重力
         if (!Ground.ground)
         {
-            rd.velocity -= new Vector3(0, 10 * Time.deltaTime, 0);
+            if(!gravit_sky)rd.velocity -= new Vector3(0, 10 * Time.deltaTime, 0);
+            if(gravit_sky) rd.velocity -= new Vector3(0, 450 * Time.deltaTime, 0);
+            gravit_count -= Time.deltaTime;
         }
-
+        print(gravit_sky);
         ///////////////////////////////////////移動
         velocity = Vector3.zero;
         InputAxis = Vector3.zero;
@@ -214,7 +216,6 @@ public class player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl))//スライディング処理
         {
             this.transform.localScale = new Vector3(1, 0.6f, 1);
-            
             if (slidingTimes >= 2)
             {
                 sldvel = Vector3.zero;
@@ -222,6 +223,7 @@ public class player : MonoBehaviour
                 sldvel = gameObject.transform.rotation * sldvel.normalized * slidingTimes * Time.deltaTime * 1.5f;
                 slidingTimes -= Time.deltaTime * 7;
                 transform.position += sldvel;
+                
             }
             else
             {
@@ -307,11 +309,11 @@ public class player : MonoBehaviour
             }
             BlockID_Run = 0;
             BlockID_Retention = 0;
+
         }
         else
         {
             Landing = true;
-
         }
 
         if (Jump.magnitude > 0)
@@ -333,7 +335,6 @@ public class player : MonoBehaviour
 
     void Wallwalk()
     {
-
         ////////////////////////////初期設定(一度のみ)//////////////////////////////////
         if (Gravitystop)
         {
@@ -344,17 +345,15 @@ public class player : MonoBehaviour
             if (Wall_Right.Right_Walls) MoveCamera = 1;
             if (Wall_left.Left_Walls) MoveCamera = 2;
             cameraX = Rot.rotation.x;
-            rd.isKinematic = true;
             Gravitystop = false;
-            rd.isKinematic = false;
-            moveSpeed = 10;
+            sp = 10;
         }
         ////////////////////////////初期設定(一度のみ)//////////////////////////////////
         if (Input.GetKeyDown(KeyCode.Space))//space押されてないなら
         {
             Cameraroteto = Rot.eulerAngles.y;
             Jump_wall = true;
-            moveSpeed = 5;
+            sp = 5;
         }
         else
         {
@@ -363,12 +362,12 @@ public class player : MonoBehaviour
             if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
             {
                 velocity.z += 1;
-                moveSpeed -= Time.deltaTime * 8;
+                sp -= Time.deltaTime * 8;
 
             }
             else
             {
-                moveSpeed = 0;
+                sp = 0;
             }
 
             if (Wall_Right.Right_Walls)
@@ -407,27 +406,27 @@ public class player : MonoBehaviour
 
             ///////////////////////////壁走りの上昇＆下降///////////////////////////////////
             Jump = Vector3.zero;
-            if (moveSpeed > 5)
+            if (sp > 5)
             {
                 Jump.y += 1;
                 Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime;
             }
-            if (moveSpeed < 5 && moveSpeed > 4)
+            if (sp < 5 && sp > 4)
             {
                 Jump.y += 1;
                 Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime / 2;
             }
-            if (moveSpeed < 4 && moveSpeed > 3)
+            if (sp < 4 && sp > 3)
             {
                 Jump.y += 1;
                 Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime / 3;
             }
-            if (moveSpeed < 3 && moveSpeed > 2)
+            if (sp < 3 && sp > 2)
             {
                 Jump.y -= 1;
                 Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime / 5;
             }
-            if (moveSpeed < 2)
+            if (sp < 2)
             {
                 Jump.y -= 1;
                 Jump = gameObject.transform.rotation * Jump.normalized * Time.deltaTime / 7;
@@ -441,9 +440,9 @@ public class player : MonoBehaviour
 
 
 
-        if (moveSpeed < 0)
+        if (sp < 0)
         {
-            moveSpeed = 0;
+            sp = 0;
         }
     }//壁移動
 
@@ -454,10 +453,8 @@ public class player : MonoBehaviour
         ////////////////////////////初期設定(一度のみ)//////////////////////////////////
         if (Gravitystop)
         {
-            rd.isKinematic = true;
             Gravitystop = false;
-            rd.isKinematic = false;
-            moveSpeed = 10;
+            sp = 10;
         }
         ////////////////////////////初期設定(一度のみ)//////////////////////////////////
 
@@ -470,17 +467,17 @@ public class player : MonoBehaviour
                 if (Input.GetKey(KeyCode.W))
                 {
                     velocity.y += 1;
-                    moveSpeed -= Time.deltaTime * 5;
+                    sp -= Time.deltaTime * 5;
 
                 }
                 else
                 {
-                    moveSpeed = 0;
+                sp = 0;
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
                     velocity.z -= 1;
-                    moveSpeed = 0;
+                sp = 0;
                     
                 }
                 velocity = gameObject.transform.rotation * velocity.normalized * 3 * Time.deltaTime;
@@ -501,12 +498,13 @@ public class player : MonoBehaviour
                 ///////////////////////////走るサウンド/////////////////////////////////////////
 
         }
-        if (moveSpeed < 0)//0以下になった時の補正用
+        if (sp < 0)//0以下になった時の補正用
         {
-            moveSpeed = 0;
+            sp = 0;
             in_flont.front_Walls = 0;
             Cameraroteto = Rot.eulerAngles.y;
             BlockID_Run = BlockID_Retention;
+            gravit_count = -1;
         }
     }//壁登り
 
@@ -529,6 +527,22 @@ public class player : MonoBehaviour
         Audio.Player_Sound_janp();
         rd.velocity += Jump;
         Jump_wall = false;
+    }
+
+    void OnCollisionStay(Collision collision)
+    {   
+        if(collision.gameObject.tag == "wall" || collision.gameObject.tag == "Junp_wall" && !Ground.ground && gravit_count <=0)
+        {
+            if(Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.A)|| Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.D))
+            gravit_sky = true;
+        }
+        if (Ground.ground) gravit_sky = false;
+        if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D)) gravit_sky = false; 
+    }
+    void OnCollisionExit(Collision other)
+    {
+            gravit_sky = false;
+        gravit_count = 3;
     }
 
 }
